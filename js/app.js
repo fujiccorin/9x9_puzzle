@@ -1,6 +1,7 @@
 /**
  * app.js
  * メインゲームアプリケーション
+ * patterns.json からパターンデータを読み込んで、ゲームに反映
  */
 
 // ゲーム状態
@@ -11,22 +12,83 @@ let gameState = {
     startTime: null,        // ゲーム開始時刻
     timerInterval: null,    // タイマーのinterval ID
     draggedPiece: null,     // ドラッグ中のピース
-    dragOffset: { x: 0, y: 0 }
+    dragOffset: { x: 0, y: 0 },
+    currentPattern: null    // 現在のパターン
 };
+
+/**
+ * patterns.json からパターンデータを読み込む
+ */
+async function loadPatterns() {
+    try {
+        const response = await fetch('data/patterns.json');
+        const data = await response.json();
+        return data.patterns;
+    } catch (error) {
+        console.error('パターンの読み込みに失敗しました:', error);
+        return [];
+    }
+}
+
+/**
+ * ランダムにパターンを選択
+ */
+function selectRandomPattern(patterns) {
+    if (!patterns || patterns.length === 0) {
+        console.error('利用可能なパターンがありません');
+        return null;
+    }
+    const randomIndex = Math.floor(Math.random() * patterns.length);
+    return patterns[randomIndex];
+}
+
+/**
+ * パターンデータからピースを生成
+ */
+function createPiecesFromPattern(pattern) {
+    if (!pattern || !pattern.pieces) {
+        console.error('パターンデータが無効です');
+        return [];
+    }
+
+    return pattern.pieces.map((pieceData) => {
+        return {
+            id: pieceData.id,
+            type: pieceData.type,
+            shape: pieceData.shape,
+            numbers: pieceData.numbers,
+            cells: pieceData.cells,
+            placed: false,
+            position: null
+        };
+    });
+}
 
 /**
  * ゲーム初期化
  */
-function initGame() {
+async function initGame() {
+    // パターンデータを読み込む
+    const patterns = await loadPatterns();
+    const selectedPattern = selectRandomPattern(patterns);
+    
+    if (!selectedPattern) {
+        alert('ゲームの初期化に失敗しました。パターンデータを確認してください。');
+        return;
+    }
+
+    gameState.currentPattern = selectedPattern;
     gameState.kukuBoard = generateKukuBoard();
     gameState.gameBoard = initializeGameBoard();
-    gameState.pieces = generatePieces();
+    gameState.pieces = createPiecesFromPattern(selectedPattern);
     gameState.startTime = Date.now();
     
     // UI初期化
     renderBoard();
     renderPieces();
     startTimer();
+    
+    console.log(`パターン「${selectedPattern.name}」でゲーム開始！`);
 }
 
 /**
@@ -170,8 +232,11 @@ function handleTouchEnd(e, piece) {
     
     if (targetElement && targetElement.classList.contains('cell')) {
         const cellId = targetElement.id;
-        const [_, row, col] = cellId.match(/cell-(\d+)-(\d+)/);
-        attemptPlacePiece(piece, parseInt(row), parseInt(col));
+        const match = cellId.match(/cell-(\d+)-(\d+)/);
+        if (match) {
+            const [_, row, col] = match;
+            attemptPlacePiece(piece, parseInt(row), parseInt(col));
+        }
     }
     
     gameState.draggedPiece = null;
@@ -179,16 +244,33 @@ function handleTouchEnd(e, piece) {
 
 /**
  * ピース配置の試行
+ * パターンデータのcells配列と照合して配置可能か検証
  */
 function attemptPlacePiece(piece, startRow, startCol) {
-    // 配置可能か確認
-    if (!canPlacePiece(piece.shape, piece.numbers, startRow, startCol, gameState.gameBoard)) {
-        alert('この位置には置けません！');
-        return;
+    // パターンの座標は1-indexedなので、0-indexedに変換
+    const expectedCells = piece.cells.map(([r, c]) => [r - 1, c - 1]);
+    
+    // 実際に配置されるセルを計算
+    const actualCells = piece.shape.map(([r, c]) => [startRow + r, startCol + c]);
+    
+    // 配置可能か確認（ボード内か、既に埋まっていないか）
+    for (const [r, c] of actualCells) {
+        if (r < 0 || r >= 9 || c < 0 || c >= 9) {
+            alert('この位置には置けません！（ボード外です）');
+            return;
+        }
+        
+        if (gameState.gameBoard[r][c] !== null) {
+            alert('この位置には置けません！（既に埋まっています）');
+            return;
+        }
     }
     
-    // 正しい位置か確認
-    if (!isCorrectPlacement(piece.shape, piece.numbers, startRow, startCol, gameState.kukuBoard)) {
+    // パターンのexpectedCellsと一致しているか確認
+    const expectedSet = new Set(expectedCells.map(([r, c]) => `${r},${c}`));
+    const actualSet = new Set(actualCells.map(([r, c]) => `${r},${c}`));
+    
+    if (expectedSet.size !== actualSet.size || ![...expectedSet].every(cell => actualSet.has(cell))) {
         alert('この位置は間違っています。もう一度考えてみてください！');
         return;
     }
@@ -267,10 +349,41 @@ function resetGame() {
         startTime: null,
         timerInterval: null,
         draggedPiece: null,
-        dragOffset: { x: 0, y: 0 }
+        dragOffset: { x: 0, y: 0 },
+        currentPattern: null
     };
     document.getElementById('completion-modal').classList.add('hidden');
     initGame();
+}
+
+/**
+ * 9×9の九九表を生成
+ */
+function generateKukuBoard() {
+    const board = [];
+    for (let row = 0; row < 9; row++) {
+        const line = [];
+        for (let col = 0; col < 9; col++) {
+            line.push((row + 1) * (col + 1));
+        }
+        board.push(line);
+    }
+    return board;
+}
+
+/**
+ * ゲーム用のボード（配置状態）を初期化
+ */
+function initializeGameBoard() {
+    const board = [];
+    for (let row = 0; row < 9; row++) {
+        const line = [];
+        for (let col = 0; col < 9; col++) {
+            line.push(null);
+        }
+        board.push(line);
+    }
+    return board;
 }
 
 /**
