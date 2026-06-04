@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九九パズル - 9x9 Puzzle</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>🎯 九九パズル</h1>
+            <div class="timer-section">
+                <span class="timer-label">タイム：</span>
+                <span id="timer" class="timer">00:00</span>
+            </div>
+        </header>
+
+        <!-- メインゲーム領域 -->
+        <main class="game-area">
+            <!-- 盤面 -->
+            <div class="board-section">
+                <div id="board" class="board"></div>
+            </div>
+
+            <!-- ピース置き場 -->
+            <div class="pieces-section">
+                <h2>ピース</h2>
+                <div id="pieces-container" class="pieces-container"></div>
+            </div>
+        </main>
+
+        <!-- ゲーム終了モーダル -->
+        <div id="completion-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🎉 クリア！</h2>
+                <p id="final-time" class="final-time">タイム: 00:00</p>
+                <button id="reset-btn" class="btn-reset">もう一度プレイ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- スクリプト読み込み -->
+    <script src="js/pieces.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
