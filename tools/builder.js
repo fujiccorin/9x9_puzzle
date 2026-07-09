@@ -3,8 +3,8 @@
  * Pattern Builder
  * builder.js
  *
- * Phase 2-3A-1
- *  初期化・状態管理
+ * Phase 2-3A-1 to 2-3A-3
+ *  初期化・状態管理・ピース一覧・ピース選択
  * ============================================================
  */
 
@@ -246,6 +246,165 @@ function initializeStatistics() {
 
 
 /* ============================================================
+   ピース一覧生成
+============================================================ */
+
+function getPieceSize(piece) {
+
+    return piece.shape.length;
+
+}
+
+
+function updatePieceStatistics() {
+
+    let count2 = 0;
+    let count3 = 0;
+    let count4 = 0;
+    let count5 = 0;
+
+    BuilderState.pieces.forEach(piece => {
+
+        switch (piece.shape.length) {
+
+            case 2:
+                count2++;
+                break;
+
+            case 3:
+                count3++;
+                break;
+
+            case 4:
+                count4++;
+                break;
+
+            case 5:
+                count5++;
+                break;
+
+        }
+
+    });
+
+    UI.pieceTotal.textContent =
+        BuilderState.pieces.length;
+
+    UI.count2.textContent =
+        count2;
+
+    UI.count3.textContent =
+        count3;
+
+    UI.count4.textContent =
+        count4;
+
+    UI.count5.textContent =
+        count5;
+
+}
+
+
+function createPieceButton(piece) {
+
+    const button =
+        document.createElement("button");
+
+    button.className =
+        "piece-button";
+
+    button.dataset.id =
+        piece.id;
+
+    button.textContent =
+        `${piece.id} (${piece.shape.length}マス)`;
+
+    button.addEventListener(
+
+        "click",
+
+        () => {
+
+            selectPiece(piece.id);
+
+        }
+
+    );
+
+    return button;
+
+}
+
+
+function renderPieceList() {
+
+    UI.pieceList.innerHTML = "";
+
+    BuilderState.pieces.forEach(piece => {
+
+        UI.pieceList.appendChild(
+
+            createPieceButton(piece)
+
+        );
+
+    });
+
+    updatePieceStatistics();
+
+}
+
+
+/* ============================================================
+   ピース選択
+============================================================ */
+
+function selectPiece(pieceId) {
+
+    BuilderState.selectedPiece =
+
+        BuilderState.pieces.find(
+
+            piece => piece.id === pieceId
+
+        );
+
+    document
+
+        .querySelectorAll(".piece-button")
+
+        .forEach(button => {
+
+            button.classList.remove("selected");
+
+        });
+
+    const selected =
+
+        document.querySelector(
+
+            `[data-id="${pieceId}"]`
+
+        );
+
+    if (selected) {
+
+        selected.classList.add("selected");
+
+    }
+
+    UI.selectedPiece.textContent =
+
+        BuilderState.selectedPiece.name;
+
+    UI.messageArea.textContent =
+
+        "盤面上をクリックして配置します。";
+
+}
+
+
+/* ============================================================
    初期化
 ============================================================ */
 
@@ -267,6 +426,7 @@ function initializeBuilder() {
 
     initializeBoard();
     initializeStatistics();
+    renderPieceList();
 
 }
 
