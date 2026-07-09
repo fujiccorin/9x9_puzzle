@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九九パズル Pattern Builder</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="builder.css">
+</head>
+
+<body>
+
+<header class="app-header">
+    <h1>🎯 九九パズル Pattern Builder</h1>
+    <p class="subtitle">
+        九九パズル完成形（patterns.json）作成ツール
+    </p>
+</header>
+
+<div class="app-container">
+
+    <!-- ========================= -->
+    <!-- 左側：ピース一覧 -->
+    <!-- ========================= -->
+    <aside class="left-panel">
+
+        <h2>ピース一覧</h2>
+
+        <div id="piece-list" class="piece-list">
+
+            <!-- builder.js が自動生成 -->
+        </div>
+
+    </aside>
+
+
+    <!-- ========================= -->
+    <!-- 中央：盤面 -->
+    <!-- ========================= -->
+    <main class="center-panel">
+
+        <div class="board-header">
+
+            <div class="board-title">
+                9 × 9 九九盤面
+            </div>
+
+            <div class="board-status">
+
+                <span>
+                    配置済：
+                    <strong id="placed-count">0</strong>
+                </span>
+
+                <span>
+                    残り：
+                    <strong id="remaining-count">81</strong>
+                </span>
+
+            </div>
+
+        </div>
+
+        <div id="board" class="board">
+
+            <!-- builder.js が81マス生成 -->
+
+        </div>
+
+    </main>
+
+
+    <!-- ========================= -->
+    <!-- 右側：操作 -->
+    <!-- ========================= -->
+    <aside class="right-panel">
+
+        <h2>現在の状態</h2>
+
+        <div class="info-box">
+
+            <p>
+                選択中ピース
+            </p>
+
+            <div id="selected-piece">
+                なし
+            </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <p>
+                メッセージ
+            </p>
+
+            <div id="message-area">
+
+                ピースを選択してください。
+
+            </div>
+
+        </div>
+
+
+        <div class="button-group">
+
+            <button id="undo-btn">
+
+                Undo
+
+            </button>
+
+            <button id="redo-btn">
+
+                Redo
+
+            </button>
+
+            <button id="reset-btn">
+
+                リセット
+
+            </button>
+
+            <button id="export-btn">
+
+                JSON出力
+
+            </button>
+
+        </div>
+
+
+        <div class="statistics">
+
+            <h3>統計</h3>
+
+            <table>
+
+                <tr>
+                    <th>総ピース数</th>
+                    <td id="piece-total">0</td>
+                </tr>
+
+                <tr>
+                    <th>2マス</th>
+                    <td id="count-2">0</td>
+                </tr>
+
+                <tr>
+                    <th>3マス</th>
+                    <td id="count-3">0</td>
+                </tr>
+
+                <tr>
+                    <th>4マス</th>
+                    <td id="count-4">0</td>
+                </tr>
+
+                <tr>
+                    <th>5マス</th>
+                    <td id="count-5">0</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+<footer class="app-footer">
+
+    Pattern Builder Version 1.0
+
+</footer>
+
+
+<!-- ========================= -->
+<!-- JavaScript -->
+<!-- ========================= -->
+
+<script src="../js/pieces.js"></script>
+
+<script src="builder.js"></script>
+
+<script src="export.js"></script>
+
+</body>
+</html>
