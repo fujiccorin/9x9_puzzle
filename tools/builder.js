@@ -182,6 +182,70 @@ function loadPieces() {
 
 
 /* ============================================================
+   9×9盤面生成
+============================================================ */
+
+function initializeBoard() {
+
+    BuilderState.board = [];
+
+    for (let row = 0; row < 9; row++) {
+
+        const line = [];
+
+        for (let col = 0; col < 9; col++) {
+
+            line.push(null);
+
+        }
+
+        BuilderState.board.push(line);
+
+    }
+
+    console.log("Board Initialized");
+
+}
+
+
+/* ============================================================
+   統計情報初期化
+============================================================ */
+
+function initializeStatistics() {
+
+    if (UI.placedCount) {
+        UI.placedCount.textContent = "0";
+    }
+
+    if (UI.remainingCount) {
+        UI.remainingCount.textContent = "81";
+    }
+
+    if (UI.pieceTotal) {
+        UI.pieceTotal.textContent = "0";
+    }
+
+    if (UI.count2) {
+        UI.count2.textContent = "0";
+    }
+
+    if (UI.count3) {
+        UI.count3.textContent = "0";
+    }
+
+    if (UI.count4) {
+        UI.count4.textContent = "0";
+    }
+
+    if (UI.count5) {
+        UI.count5.textContent = "0";
+    }
+
+}
+
+
+/* ============================================================
    初期化
 ============================================================ */
 
@@ -201,10 +265,8 @@ function initializeBuilder() {
 
     }
 
-    // 以降の処理は
-    // Phase2-3A-2
-    // Phase2-3A-3
-    // で追加
+    initializeBoard();
+    initializeStatistics();
 
 }
 
