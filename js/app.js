@@ -103,7 +103,7 @@ function renderBoard() {
             const cell = document.createElement('div');
             cell.className = 'cell';
             cell.id = `cell-${row}-${col}`;
-            cell.textContent = gameState.kukuBoard[row][col];
+            cell.textContent = '';
             
             if (gameState.gameBoard[row][col] !== null) {
                 cell.classList.add('filled');
@@ -122,7 +122,7 @@ function renderPieces() {
     container.innerHTML = '';
     
     gameState.pieces.forEach((piece, index) => {
-        if (piece.placed) return; // 既に配置済みならスキップ
+        if (piece.placed) return; // 既に配置済みならスキ���プ
         
         const pieceEl = document.createElement('div');
         pieceEl.className = 'piece';
