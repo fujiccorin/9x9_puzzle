@@ -319,3 +319,54 @@ body {
         font-size: 2em;
     }
 }
+
+.start-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2000;
+}
+
+.start-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: min(90%, 500px);
+
+    text-align: center;
+}
+
+.start-card h2 {
+    color: #764ba2;
+    margin-bottom: 20px;
+}
+
+.start-card ul {
+    text-align: left;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+#start-btn {
+    background: linear-gradient(
+        135deg,
+        #667eea 0%,
+        #764ba2 100%
+    );
+
+    color: white;
+    border: none;
+
+    padding: 15px 30px;
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+}
