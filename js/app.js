@@ -249,7 +249,7 @@ function handleTouchStart(e, piece) {
  */
 function handleTouchMove(e) {
     if (!gameState.draggedPiece) return;
-    e.preventDefault();
+
 }
 
 /**
