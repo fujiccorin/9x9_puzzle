@@ -124,6 +124,7 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     max-height: 600px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .pieces-section h2 {
@@ -148,7 +149,7 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
     user-select: none;
-    touch-action: none;
+    /* touch-action: none; */
 }
 
 .piece:hover {
@@ -185,6 +186,26 @@ body {
     font-size: 0.8em;
     color: #999;
     margin-top: 5px;
+}
+
+/* スクロールバーを太くする */
+
+.pieces-section::-webkit-scrollbar {
+    width: 18px;
+}
+
+.pieces-section::-webkit-scrollbar-track {
+    background: #ddd;
+    border-radius: 10px;
+}
+
+.pieces-section::-webkit-scrollbar-thumb {
+    background: #764ba2;
+    border-radius: 10px;
+}
+
+.pieces-section::-webkit-scrollbar-thumb:hover {
+    background: #5e3c86;
 }
 
 /* ===== モーダル ===== */
