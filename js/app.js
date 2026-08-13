@@ -426,5 +426,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // ゲーム開始
-    initGame();
+    const startBtn =
+    document.getElementById('start-btn');
+
+if (startBtn) {
+    startBtn.addEventListener(
+        'click',
+        () => {
+
+            document
+                .getElementById('start-screen')
+                .style.display = 'none';
+
+            initGame();
+        }
+    );
+}
 });
