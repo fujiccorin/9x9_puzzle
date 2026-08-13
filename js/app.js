@@ -38,8 +38,9 @@ function selectRandomPattern(patterns) {
         console.error('利用可能なパターンがありません');
         return null;
     }
-    const randomIndex = Math.floor(Math.random() * patterns.length);
-    return patterns[randomIndex];
+const randomIndex = Math.floor(Math.random() * patterns.length);
+return patterns[randomIndex]; 
+
 }
 
 /**
@@ -100,10 +101,35 @@ function renderBoard() {
     
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            cell.id = `cell-${row}-${col}`;
-            cell.textContent = '';
+const cell = document.createElement('div');
+cell.className = 'cell';
+cell.id = `cell-${row}-${col}`;
+cell.textContent = '';
+
+cell.addEventListener('dragover', (e) => {
+    e.preventDefault();
+});
+
+cell.addEventListener('drop', (e) => {
+    e.preventDefault();
+
+    if (!gameState.draggedPiece) return;
+
+    attemptPlacePiece(
+        gameState.draggedPiece,
+        row,
+        col
+    );
+});
+
+if (gameState.gameBoard[row][col] !== null) {
+    cell.classList.add('filled');
+
+    cell.textContent =
+        gameState.gameBoard[row][col].number;
+}
+
+boardEl.appendChild(cell);
             
             if (gameState.gameBoard[row][col] !== null) {
                 cell.classList.add('filled');
@@ -152,7 +178,7 @@ function renderPieces() {
                     cellEl.className = 'piece-cell';
                     cellEl.textContent = piece.numbers[shapeIndex];
                 } else {
-                    cellEl.style.display = 'none';
+                    cellEl.style.visibility = 'hidden';
                 }
                 
                 gridEl.appendChild(cellEl);
@@ -277,9 +303,13 @@ function attemptPlacePiece(piece, startRow, startCol) {
     
     // ピースを配置
     for (let i = 0; i < piece.shape.length; i++) {
-        const [r, c] = piece.shape[i];
-        gameState.gameBoard[startRow + r][startCol + c] = piece.id;
-    }
+    const [r, c] = piece.shape[i];
+
+    gameState.gameBoard[startRow + r][startCol + c] = {
+        pieceId: piece.id,
+        number: piece.numbers[i]
+    };
+}
     
     piece.placed = true;
     piece.position = { row: startRow, col: startCol };
