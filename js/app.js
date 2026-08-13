@@ -52,7 +52,7 @@ function createPiecesFromPattern(pattern) {
         return [];
     }
 
-    return pattern.pieces.map((pieceData) => {
+    const pieces = pattern.pieces.map((pieceData) => {
         return {
             id: pieceData.id,
             type: pieceData.type,
@@ -63,6 +63,11 @@ function createPiecesFromPattern(pattern) {
             position: null
         };
     });
+
+    // ピース順をランダム化
+    pieces.sort(() => Math.random() - 0.5);
+
+    return pieces;
 }
 
 /**
