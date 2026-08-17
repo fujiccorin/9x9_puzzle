@@ -426,15 +426,19 @@ body {
 
 .ghost-piece {
     position: fixed;
-
     pointer-events: none;
-
-    opacity: 0.6;
 
     z-index: 9999;
 
     display: none;
+}
 
-    transform: translate(-50%, -50%);
+.ghost-piece .piece-cell {
+    width: 75px;
+    height: 75px;
+
+    font-size: 1.4em;
+
+    opacity: 0.8;
 }
 
