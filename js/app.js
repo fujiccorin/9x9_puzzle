@@ -284,8 +284,17 @@ ghost.style.top =
 function handleTouchEnd(e, piece) {
     if (!gameState.draggedPiece) return;
     
-    const touch = e.changedTouches[0];
-    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+   const ghost =
+    document.getElementById('ghost-piece');
+
+const ghostRect =
+    ghost.getBoundingClientRect();
+
+const targetElement =
+    document.elementFromPoint(
+        ghostRect.left + 5,
+        ghostRect.top + 5
+    );
     
     if (targetElement && targetElement.classList.contains('cell')) {
         const cellId = targetElement.id;
