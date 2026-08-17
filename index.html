@@ -33,9 +33,17 @@
             <li>タイムアタックに挑戦！</li>
         </ul>
 
-        <button id="start-btn">
-            ゲームスタート
-        </button>
+       <div class="difficulty-buttons">
+
+    <button id="easy-btn" class="difficulty-btn easy">
+        かんたん
+    </button>
+
+    <button id="normal-btn" class="difficulty-btn normal">
+        ふつう
+    </button>
+
+</div>
     </div>
 </div>
 
@@ -66,5 +74,7 @@
     <!-- スクリプト読み込み -->
     <script src="js/pieces.js"></script>
     <script src="js/app.js"></script>
+    <!-- ドラッグ中のゴーストピース -->
+<div id="ghost-piece" class="ghost-piece"></div>
 </body>
 </html>
