@@ -256,6 +256,8 @@ ghost.style.display = 'block';
         x: touch.clientX - rect.left,
         y: touch.clientY - rect.top
     };
+    document.querySelector('.pieces-section')
+    .style.overflowY = 'hidden';
 }
 
 /**
@@ -269,11 +271,11 @@ function handleTouchMove(e) {
     const ghost =
         document.getElementById('ghost-piece');
 
-    ghost.style.left =
-        `${touch.clientX}px`;
+   ghost.style.left =
+`${touch.clientX - gameState.dragOffset.x}px`;
 
-    ghost.style.top =
-        `${touch.clientY}px`;
+ghost.style.top =
+`${touch.clientY - gameState.dragOffset.y}px`;
 }
 
 /**
@@ -299,6 +301,8 @@ function handleTouchEnd(e, piece) {
     ghost.style.display = 'none';
     ghost.innerHTML = '';
     gameState.draggedPiece = null;
+    document.querySelector('.pieces-section')
+    .style.overflowY = 'auto';
 }
 
 /**
