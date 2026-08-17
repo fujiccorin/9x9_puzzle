@@ -245,10 +245,10 @@ function handleTouchStart(e, piece) {
 ghost.innerHTML = el.innerHTML;
 
 ghost.style.left =
-`${touch.clientX}px`;
+`${touch.clientX + 30}px`;
 
 ghost.style.top =
-`${touch.clientY}px`;
+`${touch.clientY + 30}px`;
 
 ghost.style.display = 'block';
 
