@@ -6,6 +6,7 @@
 
 // ゲーム状態
 let gameState = {
+    difficulty: null,       // 難易度
     kukuBoard: null,        // 九九表（正解用）
     gameBoard: null,        // ゲーム中のボード状態
     pieces: [],             // 配置するピース一覧
@@ -238,6 +239,19 @@ function handleTouchStart(e, piece) {
     const touch = e.touches[0];
     const el = e.target.closest('.piece');
     const rect = el.getBoundingClientRect();
+
+    const ghost = document.getElementById('ghost-piece');
+
+ghost.innerHTML = el.innerHTML;
+
+ghost.style.left =
+`${touch.clientX}px`;
+
+ghost.style.top =
+`${touch.clientY}px`;
+
+ghost.style.display = 'block';
+
     gameState.dragOffset = {
         x: touch.clientX - rect.left,
         y: touch.clientY - rect.top
@@ -250,6 +264,16 @@ function handleTouchStart(e, piece) {
 function handleTouchMove(e) {
     if (!gameState.draggedPiece) return;
 
+    const touch = e.touches[0];
+
+    const ghost =
+        document.getElementById('ghost-piece');
+
+    ghost.style.left =
+        `${touch.clientX}px`;
+
+    ghost.style.top =
+        `${touch.clientY}px`;
 }
 
 /**
@@ -269,7 +293,11 @@ function handleTouchEnd(e, piece) {
             attemptPlacePiece(piece, parseInt(row), parseInt(col));
         }
     }
-    
+    const ghost =
+    document.getElementById('ghost-piece');
+
+    ghost.style.display = 'none';
+    ghost.innerHTML = '';
     gameState.draggedPiece = null;
 }
 
@@ -365,10 +393,15 @@ function stopTimer() {
  * 完了モーダル表示
  */
 function showCompletionModal() {
-    const modal = document.getElementById('completion-modal');
+    const difficultyLabel =
+    gameState.difficulty === 'easy'
+        ? 'かんたん'
+        : 'ふつう';const modal = document.getElementById('completion-modal');
     const finalTimeEl = document.getElementById('final-time');
     const timerText = document.getElementById('timer').textContent;
-    finalTimeEl.textContent = `タイム: ${timerText}`;
+    finalTimeEl.innerHTML =
+    `🎉 ${difficultyLabel}クリア！<br>
+     タイム: ${timerText}`;
     modal.classList.remove('hidden');
 }
 
@@ -431,8 +464,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // ゲーム開始
-    const startBtn =
-    document.getElementById('start-btn');
+    const easyBtn = document.getElementById('easy-btn');
+    const normalBtn = document.getElementById('normal-btn');
+
+if (easyBtn) {
+    easyBtn.addEventListener('click', () => {
+        gameState.difficulty = 'easy';
+
+        document
+            .getElementById('start-screen')
+            .style.display = 'none';
+
+        initGame();
+    });
+}
+
+if (normalBtn) {
+    normalBtn.addEventListener('click', () => {
+        gameState.difficulty = 'normal';
+
+        document
+            .getElementById('start-screen')
+            .style.display = 'none';
+
+        initGame();
+    });
+}
 
 if (startBtn) {
     startBtn.addEventListener(
