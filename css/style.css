@@ -391,3 +391,50 @@ body {
 
     cursor: pointer;
 }
+
+.difficulty-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.difficulty-btn {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    min-width: 140px;
+}
+
+.difficulty-btn.easy {
+    background: #4CAF50;
+}
+
+.difficulty-btn.normal {
+    background: #2196F3;
+}
+
+.difficulty-btn:hover {
+    transform: scale(1.05);
+}
+
+/* ===== ドラッグ中ゴースト ===== */
+
+.ghost-piece {
+    position: fixed;
+
+    pointer-events: none;
+
+    opacity: 0.6;
+
+    z-index: 9999;
+
+    display: none;
+
+    transform: translate(-50%, -50%);
+}
+
