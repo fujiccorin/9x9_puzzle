@@ -304,9 +304,7 @@ const targetElement =
             attemptPlacePiece(piece, parseInt(row), parseInt(col));
         }
     }
-    const ghost =
-    document.getElementById('ghost-piece');
-
+    
     ghost.style.display = 'none';
     ghost.innerHTML = '';
     gameState.draggedPiece = null;
