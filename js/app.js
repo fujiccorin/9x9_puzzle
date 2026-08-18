@@ -271,11 +271,11 @@ function handleTouchMove(e) {
     const ghost =
         document.getElementById('ghost-piece');
 
-   ghost.style.left =
-`${touch.clientX + 30}px`;
+ghost.style.left =
+`${touch.clientX - 15}px`;
 
 ghost.style.top =
-`${touch.clientY + 30}px`;
+`${touch.clientY - 100}px`;
 }
 
 /**
