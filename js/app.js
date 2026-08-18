@@ -272,10 +272,10 @@ function handleTouchMove(e) {
         document.getElementById('ghost-piece');
 
    ghost.style.left =
-`${touch.clientX - gameState.dragOffset.x}px`;
+`${touch.clientX + 30}px`;
 
 ghost.style.top =
-`${touch.clientY - gameState.dragOffset.y}px`;
+`${touch.clientY + 30}px`;
 }
 
 /**
@@ -304,7 +304,7 @@ const targetElement =
             attemptPlacePiece(piece, parseInt(row), parseInt(col));
         }
     }
-    
+   
     ghost.style.display = 'none';
     ghost.innerHTML = '';
     gameState.draggedPiece = null;
@@ -422,6 +422,7 @@ function showCompletionModal() {
 function resetGame() {
     stopTimer();
     gameState = {
+        difficulty: null,
         kukuBoard: null,
         gameBoard: null,
         pieces: [],
