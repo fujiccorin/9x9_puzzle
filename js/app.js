@@ -243,6 +243,7 @@ function handleTouchStart(e, piece) {
     const ghost = document.getElementById('ghost-piece');
 
 ghost.innerHTML = el.innerHTML;
+ghost.dataset.pieceId = piece.id;
 
 ghost.style.left =
 `${touch.clientX + 30}px`;
@@ -297,6 +298,81 @@ function handleTouchMove(e) {
 
 ghost.style.top =
 `${touch.clientY - 100}px`;
+}
+
+if (gameState.difficulty === 'easy') {
+
+    const piece = gameState.draggedPiece;
+
+    const ghostRect =
+        ghost.getBoundingClientRect();
+
+    const targetElement =
+        document.elementFromPoint(
+            ghostRect.left + 5,
+            ghostRect.top + 5
+        );
+
+    if (
+        targetElement &&
+        targetElement.classList.contains('cell')
+    ) {
+
+        const cellId =
+            targetElement.id;
+
+        const match =
+            cellId.match(/cell-(\d+)-(\d+)/);
+
+        if (match) {
+
+            const row =
+                parseInt(match[1]);
+
+            const col =
+                parseInt(match[2]);
+
+            const expectedCells =
+                piece.cells.map(([r, c]) =>
+                    [r - 1, c - 1]
+                );
+
+            const actualCells =
+                piece.shape.map(([r, c]) =>
+                    [row + r, col + c]
+                );
+
+            const expectedSet =
+                new Set(
+                    expectedCells.map(
+                        ([r, c]) => `${r},${c}`
+                    )
+                );
+
+            const actualSet =
+                new Set(
+                    actualCells.map(
+                        ([r, c]) => `${r},${c}`
+                    )
+                );
+
+            const isCorrect =
+                expectedSet.size === actualSet.size &&
+                [...expectedSet].every(cell =>
+                    actualSet.has(cell)
+                );
+
+            if (isCorrect) {
+                ghost.classList.add(
+                    'ghost-correct'
+                );
+            } else {
+                ghost.classList.remove(
+                    'ghost-correct'
+                );
+            }
+        }
+    }
 }
 
 /**
