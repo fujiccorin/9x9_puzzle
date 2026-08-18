@@ -271,7 +271,7 @@ function handleTouchMove(e) {
     const ghost =
         document.getElementById('ghost-piece');
 
-ghost.style.left =
+   ghost.style.left =
 `${touch.clientX - 15}px`;
 
 ghost.style.top =
