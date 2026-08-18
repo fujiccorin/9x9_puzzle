@@ -251,6 +251,27 @@ ghost.style.top =
 `${touch.clientY + 30}px`;
 
 ghost.style.display = 'block';
+const boardCell =
+    document.querySelector('.cell');
+
+if (boardCell) {
+
+    const size =
+        boardCell.getBoundingClientRect().width;
+
+    ghost.querySelectorAll('.piece-cell')
+        .forEach(cell => {
+
+            cell.style.width =
+                `${size}px`;
+
+            cell.style.height =
+                `${size}px`;
+
+            cell.style.fontSize =
+                `${size * 0.35}px`;
+        });
+}
 
     gameState.dragOffset = {
         x: touch.clientX - rect.left,
