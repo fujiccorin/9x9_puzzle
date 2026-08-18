@@ -21,7 +21,7 @@ body {
 .header {
     background: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -74,18 +74,31 @@ body {
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ===== ボード（9x9） ===== */
 .board {
+    width: min(60vw, 60vh);
+    height: min(60vw, 60vh);
+    max-height: 75vh;
+    max-width: 75vh;
+
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
+
     gap: 2px;
     background: #f0f0f0;
     padding: 10px;
     border-radius: 10px;
-    aspect-ratio: 1;
+}
+
+.board-section {
+    display: flex;
+    justify-content: center;
 }
 
 .cell {
@@ -339,6 +352,22 @@ body {
     .modal-content h2 {
         font-size: 2em;
     }
+}
+
+@media (max-height: 700px) {
+
+    .header {
+        padding: 8px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .timer-section {
+        font-size: 1.0em;
+    }
+
 }
 
 .start-screen {
