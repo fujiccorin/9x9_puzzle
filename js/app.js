@@ -504,17 +504,5 @@ if (normalBtn) {
     });
 }
 
-if (startBtn) {
-    startBtn.addEventListener(
-        'click',
-        () => {
 
-            document
-                .getElementById('start-screen')
-                .style.display = 'none';
-
-            initGame();
-        }
-    );
-}
 });
