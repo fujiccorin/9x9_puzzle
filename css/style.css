@@ -12,12 +12,14 @@ body {
     color: #333;
     
     overscroll-behavior: none;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
+
+    padding-top: 10px;
 }
 
 /* ===== ヘッダー ===== */
