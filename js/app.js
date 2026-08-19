@@ -286,6 +286,8 @@ if (boardCell) {
  * タッチ移動
  */
 function handleTouchMove(e) {
+     e.preventDefault();
+    
     if (!gameState.draggedPiece) return;
 
     const touch = e.touches[0];
